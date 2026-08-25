@@ -1,0 +1,66 @@
+name: CI/CD Pipeline - Hyperautomation LG
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+
+env:
+  TZ: America/Manaus
+
+jobs:
+  lint-and-test:
+    name: Lint, Testes Unitários e Cobertura
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Instalar Dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Instalar Navegador Chromium do Playwright
+        run: |
+          python -m playwright install --with-deps chromium
+
+      - name: Verificação de Linting (Flake8)
+        run: |
+          flake8 src tests --count --max-line-length=120 --statistics --exclude=.venv,__pycache__
+
+      - name: Execução dos Testes Automatizados com Pytest e Cobertura
+        run: |
+          python -m pytest --cov=src --cov-report=term-missing --cov-report=xml
+
+  docker-build:
+    name: Validação de Build Docker
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Testar Build da Imagem Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: hyperautomation-lg:latest
