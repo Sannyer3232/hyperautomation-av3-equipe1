@@ -21,7 +21,7 @@ from src.logger import logger, AuditLogger
 from src.etapa1_coleta import coletar_propostas_e_status_web
 from src.etapa2_leitura import ler_todas_propostas, ler_criterios
 from src.etapa3_validacao import validar_todas_propostas
-from src.etapa4_consolidacao import consolidar_propostas_validas
+from src.etapa4_consolidacao import consolidar_propostas
 from src.etapa5_ranking import calcular_ranking_ponderado
 from src.etapa6_resultado import gerar_resultado_final
 
@@ -62,11 +62,11 @@ def executar_pipeline_hyperautomation() -> int:
         )
 
         # ETAPA 4: CONSOLIDAÇÃO (Membro 2)
-        df_consolidado = consolidar_propostas_validas(propostas_validas)
+        dados_consolidados = consolidar_propostas(propostas_validas)
 
         # ETAPA 5: RANKING (Membro 3)
         df_ranking = calcular_ranking_ponderado(
-            df_consolidado=df_consolidado,
+            propostas=dados_consolidados,
             df_criterios=df_criterios,
             audit=audit
         )
