@@ -3,11 +3,9 @@ Módulo de Logging e Auditoria.
 Garante o registro completo da esteira de hyperautomation.
 """
 
-import os
 import logging
 import json
 from datetime import datetime
-from pathlib import Path
 from src.config import LOGS_DIR, LOG_LEVEL
 
 log_file_path = LOGS_DIR / "execucao.log"

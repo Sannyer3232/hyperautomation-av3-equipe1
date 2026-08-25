@@ -12,18 +12,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-from src.config import (
+from src.config import (  # noqa: E402
     PROPOSTAS_DIR,
     CRITERIOS_PATH,
     OUTPUT_RANKING_PATH
 )
-from src.logger import logger, AuditLogger
-from src.etapa1_coleta import coletar_propostas_e_status_web
-from src.etapa2_leitura import ler_todas_propostas, ler_criterios
-from src.etapa3_validacao import validar_todas_propostas
-from src.etapa4_consolidacao import consolidar_propostas_validas
-from src.etapa5_ranking import calcular_ranking_ponderado
-from src.etapa6_resultado import gerar_resultado_final
+from src.logger import logger, AuditLogger  # noqa: E402
+from src.etapa1_coleta import coletar_propostas_e_status_web  # noqa: E402
+from src.etapa2_leitura import ler_todas_propostas, ler_criterios  # noqa: E402
+from src.etapa3_validacao import validar_todas_propostas  # noqa: E402
+from src.etapa4_consolidacao import consolidar_propostas_validas  # noqa: E402
+from src.etapa5_ranking import calcular_ranking_ponderado  # noqa: E402
+from src.etapa6_resultado import gerar_resultado_final  # noqa: E402
 
 
 def executar_pipeline_hyperautomation() -> int:
