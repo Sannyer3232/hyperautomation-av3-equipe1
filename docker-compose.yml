@@ -1,0 +1,45 @@
+services:
+  # Serviço 1: Servidor Web Simulado (Painel de Fornecedores LG)
+  web-panel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lg_web_panel_simulator
+    command: python -m http.server 8000
+    working_dir: /app
+    ports:
+      - "8000:8000"
+    environment:
+      - TZ=America/Manaus
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/resources/01_SELECAO_FORNECEDORES/web/painel_fornecedores_fake.html"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+
+  # Serviço 2: Robô de Hyperautomation (ETL, Validação, Ranking MCDA, Resultado)
+  robot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lg_hyperautomation_robot
+    command: python src/main.py
+    depends_on:
+      web-panel:
+        condition: service_started
+    environment:
+      - TZ=America/Manaus
+      - WEB_PANEL_URL=http://web-panel:8000/resources/01_SELECAO_FORNECEDORES/web/painel_fornecedores_fake.html
+      - WEB_PANEL_LOCAL_PATH=/app/resources/01_SELECAO_FORNECEDORES/web/painel_fornecedores_fake.html
+      - RESOURCES_DIR=/app/resources/01_SELECAO_FORNECEDORES
+      - PROPOSTAS_DIR=/app/resources/01_SELECAO_FORNECEDORES/propostas
+      - CRITERIOS_PATH=/app/resources/01_SELECAO_FORNECEDORES/criterios_ranking.xlsx
+      - MODELO_RANKING_PATH=/app/resources/01_SELECAO_FORNECEDORES/modelo_ranking.xlsx
+      - OUTPUT_DIR=/app/output
+      - OUTPUT_RANKING_PATH=/app/output/ranking_final.xlsx
+      - LOGS_DIR=/app/logs
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./output:/app/output
+      - ./logs:/app/logs
