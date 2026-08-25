@@ -54,7 +54,23 @@ def executar_pipeline_hyperautomation() -> int:
         )
         df_criterios = ler_criterios(CRITERIOS_PATH)
 
+        logger.info(
+            f"[INTEGRAÇÃO E1+E2] Coleta e Leitura concluídas com sucesso. "
+            f"{len(propostas_brutas)} propostas lidas de {len(arquivos_propostas)} arquivo(s)."
+        )
+
         # ETAPA 3: VALIDAÇÃO (Membro 2)
+        if validar_todas_propostas is None:
+            logger.info("[PIPELINE] Etapas 1 e 2 concluídas com sucesso. Aguardando implementação da Etapa 3.")
+            resumo_auditoria = audit.salvar_auditoria()
+            logger.info("=================================================================")
+            logger.info("  INTEGRAÇÃO ETAPA 1 (COLETA) + ETAPA 2 (LEITURA) HOMOLOGADA")
+            logger.info(f"  Total Propostas Coletadas e Lidas: {len(propostas_brutas)}")
+            logger.info(f"  Status Cadastrais Mapeados:        {len(status_web)}")
+            logger.info(f"  Critérios Carregados:              {len(df_criterios)}")
+            logger.info("=================================================================")
+            return 0
+
         propostas_validas, propostas_rejeitadas = validar_todas_propostas(
             propostas=propostas_brutas,
             status_web=status_web,
@@ -62,9 +78,19 @@ def executar_pipeline_hyperautomation() -> int:
         )
 
         # ETAPA 4: CONSOLIDAÇÃO (Membro 2)
+        if consolidar_propostas_validas is None:
+            logger.info("[PIPELINE] Etapas 1, 2 e 3 concluídas. Aguardando Etapa 4.")
+            audit.salvar_auditoria()
+            return 0
+
         df_consolidado = consolidar_propostas_validas(propostas_validas)
 
         # ETAPA 5: RANKING (Membro 3)
+        if calcular_ranking_ponderado is None:
+            logger.info("[PIPELINE] Etapas 1-4 concluídas. Aguardando Etapa 5.")
+            audit.salvar_auditoria()
+            return 0
+
         df_ranking = calcular_ranking_ponderado(
             df_consolidado=df_consolidado,
             df_criterios=df_criterios,
@@ -72,6 +98,11 @@ def executar_pipeline_hyperautomation() -> int:
         )
 
         # ETAPA 6: RESULTADO (Membro 3)
+        if gerar_resultado_final is None:
+            logger.info("[PIPELINE] Etapas 1-5 concluídas. Aguardando Etapa 6.")
+            audit.salvar_auditoria()
+            return 0
+
         df_resultado = gerar_resultado_final(
             df_ranking=df_ranking,
             propostas_rejeitadas=propostas_rejeitadas,
