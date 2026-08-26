@@ -15,7 +15,9 @@ if str(BASE_DIR) not in sys.path:
 from src.config import (  # noqa: E402
     PROPOSTAS_DIR,
     CRITERIOS_PATH,
-    OUTPUT_RANKING_PATH
+    OUTPUT_RANKING_PATH,
+    TRIGGER_MODE,
+    EMAIL_POLL_INTERVAL
 )
 from src.logger import logger, AuditLogger  # noqa: E402
 from src.etapa1_coleta import coletar_propostas_e_status_web  # noqa: E402
@@ -27,6 +29,7 @@ from src.etapa4_consolidacao import (  # noqa: E402
 )
 from src.etapa5_ranking import calcular_ranking_ponderado  # noqa: E402
 from src.etapa6_resultado import gerar_resultado_final  # noqa: E402
+from src.email_trigger import EmailTriggerService  # noqa: E402
 
 
 def executar_pipeline_hyperautomation() -> int:
@@ -139,5 +142,49 @@ def executar_pipeline_hyperautomation() -> int:
         return 1
 
 
+def main() -> int:
+    """Função principal com suporte a execução por diretório ou trigger de e-mail."""
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Robô de Hyperautomation - Processo de Seleção de Fornecedores LG"
+    )
+    parser.add_argument(
+        "--email-trigger",
+        "--watch-email",
+        action="store_true",
+        help="Inicia o monitoramento contínuo da caixa de e-mail (IMAP) para processar novos anexos."
+    )
+    parser.add_argument(
+        "--email-check",
+        action="store_true",
+        help="Executa uma única verificação na caixa de e-mail e processa mensagens pendentes."
+    )
+    parser.add_argument(
+        "--interval",
+        type=int,
+        default=EMAIL_POLL_INTERVAL,
+        help="Intervalo em segundos para checagem da caixa postal no modo contínuo."
+    )
+
+    args = parser.parse_args()
+
+    if args.email_trigger or TRIGGER_MODE.lower() == "email":
+        logger.info("[MAIN] Modo Trigger por E-mail ativado (monitoramento contínuo).")
+        servico = EmailTriggerService()
+        servico.iniciar_monitoramento(intervalo_segundos=args.interval)
+        return 0
+
+    if args.email_check:
+        logger.info("[MAIN] Modo Trigger por E-mail ativado (verificação única).")
+        servico = EmailTriggerService()
+        total = servico.verificar_e_processar()
+        logger.info(f"[MAIN] Total de e-mails processados: {total}")
+        return 0
+
+    # Modo padrão: execução por diretório local
+    return executar_pipeline_hyperautomation()
+
+
 if __name__ == "__main__":
-    sys.exit(executar_pipeline_hyperautomation())
+    sys.exit(main())

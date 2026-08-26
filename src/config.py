@@ -56,6 +56,25 @@ LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
+# Configurações do Trigger por E-mail (IMAP / SMTP)
+EMAIL_IMAP_SERVER = os.getenv("EMAIL_IMAP_SERVER", "imap.gmail.com")
+EMAIL_IMAP_PORT = int(os.getenv("EMAIL_IMAP_PORT", "993"))
+EMAIL_IMAP_SSL = os.getenv("EMAIL_IMAP_SSL", "true").lower() in ["true", "1", "yes"]
+
+EMAIL_SMTP_SERVER = os.getenv("EMAIL_SMTP_SERVER", "smtp.gmail.com")
+EMAIL_SMTP_PORT = int(os.getenv("EMAIL_SMTP_PORT", "587"))
+EMAIL_SMTP_USE_TLS = os.getenv("EMAIL_SMTP_USE_TLS", "true").lower() in ["true", "1", "yes"]
+EMAIL_SMTP_USE_SSL = os.getenv("EMAIL_SMTP_USE_SSL", "false").lower() in ["true", "1", "yes"]
+
+EMAIL_USER = os.getenv("EMAIL_USER", os.getenv("EMAIL_IMAP_USER", "rpa.suprimentos@empresa.com"))
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD", os.getenv("EMAIL_IMAP_PASSWORD", ""))
+
+EMAIL_SUBJECT_TRIGGER = os.getenv("EMAIL_SUBJECT_TRIGGER", "[SELEÇÃO FORNECEDORES]")
+EMAIL_ATTACHMENTS_DIR = Path(os.getenv("EMAIL_ATTACHMENTS_DIR", str(OUTPUT_DIR / "email_anexos")))
+EMAIL_ATTACHMENTS_DIR.mkdir(parents=True, exist_ok=True)
+EMAIL_POLL_INTERVAL = int(os.getenv("EMAIL_POLL_INTERVAL", "10"))
+TRIGGER_MODE = os.getenv("TRIGGER_MODE", "diretorio")  # 'diretorio' ou 'email'
+
 # Pesos Padrão de Negócio (caso o arquivo não seja encontrado)
 DEFAULT_WEIGHTS = {
     "Custo": {"peso": 0.40, "direcao": "Menor"},
