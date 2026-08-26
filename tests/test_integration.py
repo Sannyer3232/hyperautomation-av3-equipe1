@@ -78,6 +78,45 @@ class TestIntegracaoEtapa1EEtapa2:
         conteudo_audit = json.loads(audit_file.read_text(encoding="utf-8"))
         assert conteudo_audit["total_recebidas"] == 4
 
+    def test_fluxo_integrado_etapa1_ate_etapa4(self):
+        from src.etapa3_validacao import validar_todas_propostas
+        from src.etapa4_consolidacao import consolidar_propostas
+
+        audit = AuditLogger()
+
+        # Etapa 1: Coleta
+        arquivos, status_web = coletar_propostas_e_status_web(
+            propostas_dir=PROPOSTAS_DIR,
+            local_path=WEB_PANEL_LOCAL_PATH,
+            audit=audit
+        )
+        assert len(arquivos) == 4
+
+        # Etapa 2: Leitura
+        propostas_brutas = ler_todas_propostas(arquivos=arquivos, audit=audit)
+        assert len(propostas_brutas) == 4
+
+        # Etapa 3: Validação
+        validas, rejeitadas = validar_todas_propostas(
+            propostas=propostas_brutas,
+            status_web=status_web,
+            audit=audit
+        )
+        # Fornecedores A, B, C são válidos; D tem valores negativos/inválidos e status bloqueado
+        assert len(validas) == 3
+        assert len(rejeitadas) == 1
+
+        fornecedores_validos = {p["Fornecedor"] for p in validas}
+        assert fornecedores_validos == {"Fornecedor A", "Fornecedor B", "Fornecedor C"}
+        assert rejeitadas[0]["Fornecedor"] == "Fornecedor D"
+
+        # Etapa 4: Consolidação
+        dados_consolidados = consolidar_propostas(validas)
+        assert len(dados_consolidados) == 3
+        for item in dados_consolidados:
+            assert item["Status"] == "VALIDO"
+            assert "Observacao" in item
+
     def test_execucao_orquestrador_main(self):
         # Execução completa da pipeline principal via main
         codigo_retorno = executar_pipeline_hyperautomation()

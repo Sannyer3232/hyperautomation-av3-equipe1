@@ -4,8 +4,9 @@ Responsável: Membro 2
 """
 
 try:
-    from .consolidator import consolidar_propostas_validas
-    __all__ = ["consolidar_propostas_validas"]
+    from .consolidator import consolidar_propostas, consolidar_propostas as consolidar_propostas_validas
+    __all__ = ["consolidar_propostas", "consolidar_propostas_validas"]
 except ImportError:
+    consolidar_propostas = None  # type: ignore
     consolidar_propostas_validas = None  # type: ignore
     __all__ = []

@@ -21,7 +21,10 @@ from src.logger import logger, AuditLogger  # noqa: E402
 from src.etapa1_coleta import coletar_propostas_e_status_web  # noqa: E402
 from src.etapa2_leitura import ler_todas_propostas, ler_criterios  # noqa: E402
 from src.etapa3_validacao import validar_todas_propostas  # noqa: E402
-from src.etapa4_consolidacao import consolidar_propostas_validas  # noqa: E402
+from src.etapa4_consolidacao import (  # noqa: E402
+    consolidar_propostas,
+    consolidar_propostas_validas
+)
 from src.etapa5_ranking import calcular_ranking_ponderado  # noqa: E402
 from src.etapa6_resultado import gerar_resultado_final  # noqa: E402
 
@@ -78,12 +81,13 @@ def executar_pipeline_hyperautomation() -> int:
         )
 
         # ETAPA 4: CONSOLIDAÇÃO (Membro 2)
-        if consolidar_propostas_validas is None:
+        if consolidar_propostas is None and consolidar_propostas_validas is None:
             logger.info("[PIPELINE] Etapas 1, 2 e 3 concluídas. Aguardando Etapa 4.")
             audit.salvar_auditoria()
             return 0
 
-        df_consolidado = consolidar_propostas_validas(propostas_validas)
+        funcao_consolidar = consolidar_propostas or consolidar_propostas_validas
+        dados_consolidados = funcao_consolidar(propostas_validas)
 
         # ETAPA 5: RANKING (Membro 3)
         if calcular_ranking_ponderado is None:
@@ -92,7 +96,7 @@ def executar_pipeline_hyperautomation() -> int:
             return 0
 
         df_ranking = calcular_ranking_ponderado(
-            df_consolidado=df_consolidado,
+            propostas=dados_consolidados,
             df_criterios=df_criterios,
             audit=audit
         )
