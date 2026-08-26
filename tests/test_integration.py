@@ -162,6 +162,72 @@ class TestIntegracaoEtapa1EEtapa2:
         assert len(audit.calculos_realizados) == 3
         assert len(audit.ranking_final) == 3
 
+    def test_fluxo_integrado_completo_etapa1_ate_etapa6(self, tmp_path):
+        from src.etapa3_validacao import validar_todas_propostas
+        from src.etapa4_consolidacao import consolidar_propostas
+        from src.etapa5_ranking import calcular_ranking_ponderado
+        from src.etapa6_resultado import gerar_resultado_final
+
+        audit = AuditLogger()
+
+        # Etapa 1: Coleta
+        arquivos, status_web = coletar_propostas_e_status_web(
+            propostas_dir=PROPOSTAS_DIR,
+            local_path=WEB_PANEL_LOCAL_PATH,
+            audit=audit
+        )
+        assert len(arquivos) == 4
+
+        # Etapa 2: Leitura
+        propostas_brutas = ler_todas_propostas(arquivos=arquivos, audit=audit)
+        df_criterios = ler_criterios(CRITERIOS_PATH)
+        assert len(propostas_brutas) == 4
+
+        # Etapa 3: Validação
+        validas, rejeitadas = validar_todas_propostas(
+            propostas=propostas_brutas,
+            status_web=status_web,
+            audit=audit
+        )
+        assert len(validas) == 3
+        assert len(rejeitadas) == 1
+
+        # Etapa 4: Consolidação
+        dados_consolidados = consolidar_propostas(validas)
+        assert len(dados_consolidados) == 3
+
+        # Etapa 5: Ranking
+        df_ranking = calcular_ranking_ponderado(
+            propostas=dados_consolidados,
+            df_criterios=df_criterios,
+            audit=audit
+        )
+        assert len(df_ranking) == 3
+
+        # Etapa 6: Resultado
+        out_excel = tmp_path / "ranking_final.xlsx"
+        df_resultado = gerar_resultado_final(
+            df_ranking=df_ranking,
+            propostas_rejeitadas=rejeitadas,
+            output_path=out_excel,
+            audit=audit
+        )
+
+        assert len(df_resultado) == 4
+        assert out_excel.exists()
+
+        # Dashboard HTML gerado
+        out_html = tmp_path / "relatorio_ranking.html"
+        assert out_html.exists()
+
+        # Resumo de auditoria SOX
+        resumo = audit.salvar_auditoria()
+        assert resumo["total_recebidas"] == 4
+        assert resumo["total_validas"] == 3
+        assert resumo["total_rejeitadas"] == 1
+        assert len(resumo["calculos"]) == 3
+        assert len(resumo["ranking"]) == 4
+
     def test_execucao_orquestrador_main(self):
         # Execução completa da pipeline principal via main
         codigo_retorno = executar_pipeline_hyperautomation()
