@@ -153,7 +153,7 @@ Isso inicializa tanto o servidor web simulado na porta 8000 quanto o robô de au
 
 ## 🧪 Execução da Suíte de Testes Automatizados
 
-O projeto conta com **20 testes automatizados** cobrindo testes unitários, de validação de dados negativos, cálculo de ranking, integração ponta a ponta e regressão:
+O projeto conta com **90 testes automatizados** cobrindo testes unitários, validação de dados negativos/inconsistentes, quórum, cálculo de ranking MCDA, relatórios, integração ponta a ponta e regressão:
 
 ```bash
 # Executar todos os testes com pytest
