@@ -117,6 +117,51 @@ class TestIntegracaoEtapa1EEtapa2:
             assert item["Status"] == "VALIDO"
             assert "Observacao" in item
 
+    def test_fluxo_integrado_etapa1_ate_etapa5(self):
+        from src.etapa3_validacao import validar_todas_propostas
+        from src.etapa4_consolidacao import consolidar_propostas
+        from src.etapa5_ranking import calcular_ranking_ponderado
+
+        audit = AuditLogger()
+
+        # Etapa 1: Coleta
+        arquivos, status_web = coletar_propostas_e_status_web(
+            propostas_dir=PROPOSTAS_DIR,
+            local_path=WEB_PANEL_LOCAL_PATH,
+            audit=audit
+        )
+
+        # Etapa 2: Leitura
+        propostas_brutas = ler_todas_propostas(arquivos=arquivos, audit=audit)
+        df_criterios = ler_criterios(CRITERIOS_PATH)
+
+        # Etapa 3: Validação
+        validas, rejeitadas = validar_todas_propostas(
+            propostas=propostas_brutas,
+            status_web=status_web,
+            audit=audit
+        )
+
+        # Etapa 4: Consolidação
+        dados_consolidados = consolidar_propostas(validas)
+
+        # Etapa 5: Ranking
+        df_ranking = calcular_ranking_ponderado(
+            propostas=dados_consolidados,
+            df_criterios=df_criterios,
+            audit=audit
+        )
+
+        assert len(df_ranking) == 3
+        assert list(df_ranking.columns) == ["Posicao", "Fornecedor", "Nota_Final", "Status", "Observacao"]
+        assert list(df_ranking["Posicao"]) == [1, 2, 3]
+        assert df_ranking.iloc[0]["Nota_Final"] >= df_ranking.iloc[1]["Nota_Final"]
+        assert df_ranking.iloc[1]["Nota_Final"] >= df_ranking.iloc[2]["Nota_Final"]
+
+        # Verifica persistência no audit logger
+        assert len(audit.calculos_realizados) == 3
+        assert len(audit.ranking_final) == 3
+
     def test_execucao_orquestrador_main(self):
         # Execução completa da pipeline principal via main
         codigo_retorno = executar_pipeline_hyperautomation()
