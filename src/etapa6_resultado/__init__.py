@@ -1,8 +1,16 @@
 """
-Módulo de Geração de Resultados e Exportação de Ranking (Etapa 6).
+Módulo de Geração de Resultados e Relatórios (Etapa 6).
 Responsável: Membro 3
 """
 
-from .exporter import gerar_resultado_final
+from .result import (
+    gerar_resultado_final,
+    load_ranking_data,
+    generate_html_report
+)
 
-__all__ = ["gerar_resultado_final"]
+__all__ = [
+    "gerar_resultado_final",
+    "load_ranking_data",
+    "generate_html_report"
+]

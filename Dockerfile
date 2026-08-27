@@ -26,8 +26,9 @@ WORKDIR /app
 # Copiar arquivos de dependência primeiro (otimização de cache)
 COPY requirements.txt requirements-dev.txt ./
 
-# Instalar dependências Python
-RUN pip install --no-cache-dir -r requirements.txt
+# Instalar dependências Python e navegador Playwright
+RUN pip install --no-cache-dir -r requirements.txt && \
+    playwright install --with-deps chromium
 
 # Copiar código-fonte, recursos e configurações
 COPY src/ ./src/

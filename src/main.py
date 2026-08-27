@@ -12,18 +12,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-from src.config import (
+from src.config import (  # noqa: E402
     PROPOSTAS_DIR,
     CRITERIOS_PATH,
-    OUTPUT_RANKING_PATH
+    OUTPUT_RANKING_PATH,
+    TRIGGER_MODE,
+    EMAIL_POLL_INTERVAL
 )
-from src.logger import logger, AuditLogger
-from src.etapa1_coleta import coletar_propostas_e_status_web
-from src.etapa2_leitura import ler_todas_propostas, ler_criterios
-from src.etapa3_validacao import validar_todas_propostas
-from src.etapa4_consolidacao import consolidar_propostas_validas
-from src.etapa5_ranking import calcular_ranking_ponderado
-from src.etapa6_resultado import gerar_resultado_final
+from src.logger import logger, AuditLogger  # noqa: E402
+from src.etapa1_coleta import coletar_propostas_e_status_web  # noqa: E402
+from src.etapa2_leitura import ler_todas_propostas, ler_criterios  # noqa: E402
+from src.etapa3_validacao import validar_todas_propostas  # noqa: E402
+from src.etapa4_consolidacao import (  # noqa: E402
+    consolidar_propostas,
+    consolidar_propostas_validas
+)
+from src.etapa5_ranking import calcular_ranking_ponderado  # noqa: E402
+from src.etapa6_resultado import gerar_resultado_final  # noqa: E402
+from src.email_trigger import EmailTriggerService  # noqa: E402
 
 
 def executar_pipeline_hyperautomation() -> int:
@@ -54,7 +60,23 @@ def executar_pipeline_hyperautomation() -> int:
         )
         df_criterios = ler_criterios(CRITERIOS_PATH)
 
+        logger.info(
+            f"[INTEGRAÇÃO E1+E2] Coleta e Leitura concluídas com sucesso. "
+            f"{len(propostas_brutas)} propostas lidas de {len(arquivos_propostas)} arquivo(s)."
+        )
+
         # ETAPA 3: VALIDAÇÃO (Membro 2)
+        if validar_todas_propostas is None:
+            logger.info("[PIPELINE] Etapas 1 e 2 concluídas com sucesso. Aguardando implementação da Etapa 3.")
+            resumo_auditoria = audit.salvar_auditoria()
+            logger.info("=================================================================")
+            logger.info("  INTEGRAÇÃO ETAPA 1 (COLETA) + ETAPA 2 (LEITURA) HOMOLOGADA")
+            logger.info(f"  Total Propostas Coletadas e Lidas: {len(propostas_brutas)}")
+            logger.info(f"  Status Cadastrais Mapeados:        {len(status_web)}")
+            logger.info(f"  Critérios Carregados:              {len(df_criterios)}")
+            logger.info("=================================================================")
+            return 0
+
         propostas_validas, propostas_rejeitadas = validar_todas_propostas(
             propostas=propostas_brutas,
             status_web=status_web,
@@ -62,16 +84,32 @@ def executar_pipeline_hyperautomation() -> int:
         )
 
         # ETAPA 4: CONSOLIDAÇÃO (Membro 2)
-        df_consolidado = consolidar_propostas_validas(propostas_validas)
+        if consolidar_propostas is None and consolidar_propostas_validas is None:
+            logger.info("[PIPELINE] Etapas 1, 2 e 3 concluídas. Aguardando Etapa 4.")
+            audit.salvar_auditoria()
+            return 0
+
+        funcao_consolidar = consolidar_propostas or consolidar_propostas_validas
+        dados_consolidados = funcao_consolidar(propostas_validas)
 
         # ETAPA 5: RANKING (Membro 3)
+        if calcular_ranking_ponderado is None:
+            logger.info("[PIPELINE] Etapas 1-4 concluídas. Aguardando Etapa 5.")
+            audit.salvar_auditoria()
+            return 0
+
         df_ranking = calcular_ranking_ponderado(
-            df_consolidado=df_consolidado,
+            propostas=dados_consolidados,
             df_criterios=df_criterios,
             audit=audit
         )
 
         # ETAPA 6: RESULTADO (Membro 3)
+        if gerar_resultado_final is None:
+            logger.info("[PIPELINE] Etapas 1-5 concluídas. Aguardando Etapa 6.")
+            audit.salvar_auditoria()
+            return 0
+
         df_resultado = gerar_resultado_final(
             df_ranking=df_ranking,
             propostas_rejeitadas=propostas_rejeitadas,
@@ -104,5 +142,49 @@ def executar_pipeline_hyperautomation() -> int:
         return 1
 
 
+def main() -> int:
+    """Função principal com suporte a execução por diretório ou trigger de e-mail."""
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Robô de Hyperautomation - Processo de Seleção de Fornecedores LG"
+    )
+    parser.add_argument(
+        "--email-trigger",
+        "--watch-email",
+        action="store_true",
+        help="Inicia o monitoramento contínuo da caixa de e-mail (IMAP) para processar novos anexos."
+    )
+    parser.add_argument(
+        "--email-check",
+        action="store_true",
+        help="Executa uma única verificação na caixa de e-mail e processa mensagens pendentes."
+    )
+    parser.add_argument(
+        "--interval",
+        type=int,
+        default=EMAIL_POLL_INTERVAL,
+        help="Intervalo em segundos para checagem da caixa postal no modo contínuo."
+    )
+
+    args = parser.parse_args()
+
+    if args.email_trigger or TRIGGER_MODE.lower() == "email":
+        logger.info("[MAIN] Modo Trigger por E-mail ativado (monitoramento contínuo).")
+        servico = EmailTriggerService()
+        servico.iniciar_monitoramento(intervalo_segundos=args.interval)
+        return 0
+
+    if args.email_check:
+        logger.info("[MAIN] Modo Trigger por E-mail ativado (verificação única).")
+        servico = EmailTriggerService()
+        total = servico.verificar_e_processar()
+        logger.info(f"[MAIN] Total de e-mails processados: {total}")
+        return 0
+
+    # Modo padrão: execução por diretório local
+    return executar_pipeline_hyperautomation()
+
+
 if __name__ == "__main__":
-    sys.exit(executar_pipeline_hyperautomation())
+    sys.exit(main())

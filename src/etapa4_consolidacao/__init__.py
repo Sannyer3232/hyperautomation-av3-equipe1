@@ -3,6 +3,10 @@ Módulo de Consolidação de Propostas Válidas (Etapa 4).
 Responsável: Membro 2
 """
 
-from .consolidator import consolidar_propostas_validas
-
-__all__ = ["consolidar_propostas_validas"]
+try:
+    from .consolidator import consolidar_propostas, consolidar_propostas as consolidar_propostas_validas
+    __all__ = ["consolidar_propostas", "consolidar_propostas_validas"]
+except ImportError:
+    consolidar_propostas = None  # type: ignore
+    consolidar_propostas_validas = None  # type: ignore
+    __all__ = []

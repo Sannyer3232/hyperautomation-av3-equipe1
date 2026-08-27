@@ -28,8 +28,8 @@ A arquitetura modular do projeto foi desenhada para permitir o trabalho paralelo
 | Membro | Etapas do Pipeline | Módulos no Código | Responsabilidades Principais |
 | :--- | :--- | :--- | :--- |
 | **Membro 1** *(Sannyer)* | **Etapa 1: Coleta**<br>**Etapa 2: Leitura**<br>*(+ Infra & DevOps)* | `src/etapa1_coleta/`<br>`src/etapa2_leitura/`<br>`Dockerfile`<br>`docker-compose.yml`<br>`.github/workflows/` | • Coleta do status cadastral no Painel Web (`HTTP:8000` e fallback local).<br>• Varredura e listagem dos arquivos de propostas (`.xlsx`, `.csv`).<br>• Leitura e extração estruturada de dados multiformato.<br>• Leitura de critérios e template de ranking.<br>• Pipeline CI/CD, Containerização Docker e Testes de Integração/Regressão. |
-| **Membro 2** | **Etapa 3: Validação**<br>**Etapa 4: Consolidação** | `src/etapa3_validacao/`<br>`src/etapa4_consolidacao/` | • Validação de compliance com status web (identificação de status *Bloqueado*).<br>• Validação técnica de integridade (rejeição de valores negativos/nulos para Custo, Prazo, Capacidade).<br>• Identificação e segregação de propostas inválidas (ex: *Fornecedor D*).<br>• Consolidação de registros válidos em DataFrame unificado e tipado. |
-| **Membro 3** | **Etapa 5: Ranking**<br>**Etapa 6: Resultado** | `src/etapa5_ranking/`<br>`src/etapa6_resultado/` | • Algoritmo de decisão multicritério (MCDA Ponderado) com normalização relativa.<br>• Aplicação dos pesos de negócio (Custo 40%, Prazo 25%, Capacidade 20%, Qualidade 15%).<br>• Ordenação e classificação das posições (1º, 2º, 3º lugar...).<br>• Preenchimento do `modelo_ranking.xlsx` e gravação em `output/ranking_final.xlsx`. |
+| **Membro 2** *(Ericle)*| **Etapa 3: Validação**<br>**Etapa 4: Consolidação** | `src/etapa3_validacao/`<br>`src/etapa4_consolidacao/` | • Validação de compliance com status web (identificação de status *Bloqueado*).<br>• Validação técnica de integridade (rejeição de valores negativos/nulos para Custo, Prazo, Capacidade).<br>• Identificação e segregação de propostas inválidas (ex: *Fornecedor D*).<br>• Consolidação de registros válidos em DataFrame unificado e tipado. |
+| **Membro 3** *(Kauã)* | **Etapa 5: Ranking**<br>**Etapa 6: Resultado** | `src/etapa5_ranking/`<br>`src/etapa6_resultado/` | • Algoritmo de decisão multicritério (MCDA Ponderado) com normalização relativa.<br>• Aplicação dos pesos de negócio (Custo 40%, Prazo 25%, Capacidade 20%, Qualidade 15%).<br>• Ordenação e classificação das posições (1º, 2º, 3º lugar...).<br>• Preenchimento do `modelo_ranking.xlsx` e gravação em `output/ranking_final.xlsx`. |
 
 ---
 
@@ -153,7 +153,7 @@ Isso inicializa tanto o servidor web simulado na porta 8000 quanto o robô de au
 
 ## 🧪 Execução da Suíte de Testes Automatizados
 
-O projeto conta com **20 testes automatizados** cobrindo testes unitários, de validação de dados negativos, cálculo de ranking, integração ponta a ponta e regressão:
+O projeto conta com **90 testes automatizados** cobrindo testes unitários, validação de dados negativos/inconsistentes, quórum, cálculo de ranking MCDA, relatórios, integração ponta a ponta e regressão:
 
 ```bash
 # Executar todos os testes com pytest
