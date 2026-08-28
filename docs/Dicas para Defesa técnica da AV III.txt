@@ -1,0 +1,108 @@
+=== Page 1 ===
+Dicas para Defesa Técnica da AV III
+1º momento — Desenvolvimento
+A equipe terá o período definido em sala para desenvolver, testar e preparar a
+solução.
+Durante esse período, a equipe deverá:
+ Desenvolver a automação;
+ Integrar os componentes necessários;
+ Testar a solução;
+ Tratar possíveis falhas;
+ Preparar Docker;
+ Configurar a execução automatizada;
+ Preparar CI/CD;
+ Implementar logs;
+ Implementar monitoramento;
+ Implementar alertas;
+ Preparar a demonstração.
+2º momento — Defesa
+A equipe deverá apresentar a solução funcionando, demonstrando o processo
+automatizado e explicando as principais decisões técnicas.
+A apresentação deverá demonstrar que a equipe não apenas desenvolveu o
+robô, mas que sabe preparar, executar, testar, monitorar e tratar falhas em
+uma solução de Hyperautomation.
+ Como será a defesa?
+ A defesa terá duas dimensões:
+ Avaliação individual
+Cada integrante poderá receber perguntas individuais, relacionadas à parte
+que desenvolveu ou defendeu na Avaliação 03.
+
+=== Page 2 ===
+O objetivo é verificar se cada integrante realmente compreende:
+ o que desenvolveu;
+ como funciona;
+ por que utilizou determinada tecnologia;
+ quais decisões técnicas foram tomadas;
+ como sua parte se integra à solução da equipe.
+Portanto, cada integrante deverá conhecer sua própria implementação e
+saber explicá-la tecnicamente.
+ Avaliação da equipe
+Além das perguntas individuais, serão realizadas perguntas relacionadas à
+solução como um todo.
+Nesse caso, qualquer integrante da equipe poderá responder.
+As perguntas poderão envolver, por exemplo:
+ problema de negócio;
+ processo automatizado;
+ arquitetura;
+ integração entre os componentes;
+ Docker;
+ CI/CD;
+ logs;
+ monitoramento;
+ alertas;
+ tratamento de falhas;
+ validação humana;
+ segurança;
+ execução em ambiente próximo de produção.
+Cenários que deverão estar preparados para a demonstração
+A equipe deverá estar preparada para demonstrar três situações principais:
+
+=== Page 3 ===
+Cenário 1 — Execução normal
+Demonstrar o robô executando o processo com sucesso.
+Execução → Processamento → Resultado → Log → Conclusão
+Cenário 2 — Falha controlada
+A equipe deverá estar preparada para demonstrar uma situação de falha.
+Exemplos:
+ arquivo indisponível;
+ dado inválido;
+ sistema indisponível;
+ falha de acesso;
+ outra situação pertinente ao processo.
+Deverá ser possível demonstrar:
+Falha → Identificação → Log → Severidade → Alerta → Tratamento
+Cenário 3 — Validação humana / regra de negócio
+A equipe deverá demonstrar onde existe participação humana no processo
+e por que ela é necessária.
+Exemplo:
+Robô processa → Identifica situação → Validação humana →
+Continuidade
+Exemplos de assuntos que poderão ser abordados
+As perguntas não estarão necessariamente limitadas aos exemplos abaixo,
+mas vocês devem estar preparados para explicar:
+ Por que determinada tecnologia foi utilizada?
+ O que acontece quando uma etapa falha?
+
+=== Page 4 ===
+ Onde estão os logs?
+ Como a solução identifica uma falha?
+ Qual situação gera INFO, AVISO, ERRO ou CRÍTICO?
+ Quem recebe os alertas?
+ O que está armazenado em Volume?
+ Quais informações estão em Variáveis de Ambiente?
+ Como funciona o CI/CD?
+ Como os testes são executados?
+ Como a execução automática funciona?
+ Onde ocorre a validação humana?
+ Como a solução poderia funcionar em um ambiente real?
+Importante
+As perguntas da defesa não serão necessariamente iguais aos exemplos
+apresentados acima.
+O objetivo é avaliar a compreensão da solução desenvolvida, e não a
+memorização de respostas.
+Cada integrante deverá demonstrar domínio sobre aquilo que desenvolveu,
+enquanto a equipe deverá demonstrar domínio sobre a solução como um todo.
+Preparem-se para explicar não apenas o que fizeram, mas principalmente
+por que fizeram e como a solução se comporta durante uma execução
+normal e diante de uma falha.
+Boa preparação e boa defesa!

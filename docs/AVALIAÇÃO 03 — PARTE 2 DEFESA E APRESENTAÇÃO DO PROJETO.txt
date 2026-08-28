@@ -1,0 +1,259 @@
+=== Page 1 ===
+AVALIAÇÃO 03 — PARTE 2: DEFESA E APRESENTAÇÃO DO PROJETO
+Disciplina: Técnicas de Hyperautomation
+Professor: Moisés Levy
+Aluno(a): ________________________________________________
+Aluno(a): ________________________________________________
+Aluno(a): ________________________________________________
+Aluno(a): ________________________________________________
+Turma: T02 Data://2026
+1. OBJETIVO
+Avaliar a capacidade da equipe de integrar, testar, containerizar, publicar e
+demonstrar a solução de Hyperautomation desenvolvida na Avaliação 3, além
+de verificar o domínio individual dos integrantes sobre a solução como um
+todo.
+2. ATIVIDADE DA EQUIPE
+A equipe deverá apresentar e demonstrar a solução desenvolvida na
+Avaliação 3.
+A apresentação deverá explicar o problema, a solução desenvolvida, o
+funcionamento do processo, as tecnologias utilizadas, os testes realizados, o
+tratamento de exceções e a forma de execução e publicação da aplicação.
+A demonstração deverá contemplar, conforme aplicável ao projeto:
+ Execução dos processos integrados;
+ Tratamento de erros e exceções;
+ Logs e alertas;
+ Testes automatizados;
+ Docker;
+ Docker Compose;
+
+=== Page 2 ===
+ Git/GitHub;
+ GitHub Actions;
+ Build da imagem Docker;
+ Publicação no GHCR;
+ Execução da imagem publicada.
+Importante: a equipe deverá demonstrar aquilo que foi efetivamente
+implementado no projeto, sem apresentar funcionalidades que não foram
+desenvolvidas.
+3. ESTRUTURA DA APRESENTAÇÃO
+A equipe deverá organizar a apresentação de forma lógica, seguindo uma
+narrativa:
+PROBLEMA → SOLUÇÃO → AUTOMAÇÃO → TESTES → DOCKER →
+CI/CD → GHCR → EXECUÇÃO → RESULTADO
+Slide 1 — Identificação do Projeto
+Apresentar:
+ Nome do projeto;
+ Integrantes da equipe;
+ Disciplina;
+ Identificação da equipe.
+Slide 2 — Problema
+Explicar:
+ Qual problema o processo apresentava;
+ Como o processo era realizado;
+ Quais eram as principais dificuldades;
+ Quais riscos ou atividades manuais existiam.
+
+=== Page 3 ===
+Slide 3 — Solução Proposta
+Explicar:
+ Qual solução foi desenvolvida;
+ Como a automação resolve o problema;
+ Qual é o fluxo geral da solução.
+Slide 4 — Fluxo do Processo
+Apresentar o fluxo específico desenvolvido pela equipe.
+Exemplo:
+Entrada → Processamento → Validação → Automação → Resultado
+Slide 5 — Arquitetura e Tecnologias
+Apresentar as principais tecnologias utilizadas e explicar a função de cada uma.
+Exemplos:
+ Python;
+ Playwright/Selenium;
+ pytest;
+ Docker;
+ Docker Compose;
+ Git/GitHub;
+ GitHub Actions;
+ GHCR.
+Slide 6 — Execução do Cenário Normal
+Demonstrar pelo menos um cenário em que a automação funciona
+corretamente.
+
+=== Page 4 ===
+Slide 7 — Tratamento de Exceção
+Demonstrar pelo menos um cenário de erro, inconsistência ou exceção
+relacionado ao projeto.
+Slide 8 — Testes
+Demonstrar os testes automatizados realizados pela equipe.
+Slide 9 — Docker e CI/CD
+Explicar:
+ Dockerfile;
+ Docker Compose;
+ Variáveis de ambiente;
+ Volumes;
+ Timezone;
+ GitHub Actions;
+ Build da imagem.
+Slide 10 — GHCR e Execução
+Demonstrar:
+ Imagem publicada;
+ docker pull;
+ Execução da imagem publicada;
+ Resultado da execução.
+Slide 11 — Logs e Resultado
+Apresentar os registros da execução, erros, alertas e resultado final.
+
+=== Page 5 ===
+Slide 12 — Conclusão
+Responder:
+ O que foi desenvolvido?
+ Qual problema foi resolvido?
+ Como a solução funciona?
+ Qual resultado foi obtido?
+ Qual valor a solução entrega para o processo?
+4. DEMONSTRAÇÃO OBRIGATÓRIA
+Durante a apresentação, a equipe deverá demonstrar as seguintes etapas.
+ETAPA 1 — CÓDIGO
+Mostrar:
+ Repositório;
+ Organização das pastas;
+ Principais arquivos;
+ Estrutura do projeto.
+ETAPA 2 — EXECUÇÃO
+Executar a solução integrada e demonstrar o funcionamento do processo.
+ETAPA 3 — TESTES
+Executar:
+python -m pytest -v
+A equipe deverá explicar o resultado dos testes.
+ETAPA 4 — GITHUB ACTIONS
+Mostrar o workflow executado no GitHub Actions.
+
+=== Page 6 ===
+A equipe deverá explicar o fluxo:
+Código → Push → Testes → Build → Publicação
+ETAPA 5 — GHCR
+Mostrar a imagem Docker publicada no GitHub Container Registry (GHCR).
+ETAPA 6 — DOCKER
+Demonstrar a execução da imagem publicada utilizando:
+docker pull
+e:
+docker run
+ETAPA 7 — RESULTADO
+Demonstrar:
+ Resultado final da automação;
+ Logs;
+ Alertas, quando aplicável;
+ Arquivos ou dados produzidos.
+5. CENÁRIO NORMAL
+A equipe deverá demonstrar pelo menos um cenário de execução normal, no
+qual:
+Entrada válida
+↓
+Processamento
+↓
+Validação
+↓
+
+=== Page 7 ===
+Execução
+↓
+Resultado esperado
+A equipe deverá explicar o que acontece em cada etapa.
+6. CENÁRIO DE EXCEÇÃO
+A equipe deverá demonstrar pelo menos um cenário de erro, inconsistência
+ou exceção relacionado ao seu projeto.
+A demonstração deverá apresentar:
+Problema
+↓
+Identificação
+↓
+Tratamento
+↓
+Log/Alerta
+↓
+Resultado
+A equipe deverá explicar por que a solução tomou aquela decisão e o que
+aconteceria caso o problema não fosse tratado.
+7. DEFESA TÉCNICA INDIVIDUAL
+Após a apresentação da equipe, cada integrante poderá ser questionado
+individualmente.
+As perguntas poderão envolver:
+ Processo desenvolvido;
+ Integração;
+ Python;
+ Regras de negócio;
+
+=== Page 8 ===
+ Testes;
+ Git/GitHub;
+ Docker;
+ Docker Compose;
+ GitHub Actions;
+ GHCR;
+ Logs;
+ Tratamento de erros;
+ Fallback;
+ Circuit Breaker;
+ Arquitetura da solução;
+ Execução e publicação da aplicação.
+IMPORTANTE
+O aluno não será avaliado somente pela parte do código que desenvolveu.
+Cada integrante deverá demonstrar conhecimento sobre o funcionamento
+geral da solução desenvolvida pela equipe.
+A divisão das tarefas durante o desenvolvimento não significa que o integrante
+esteja limitado apenas à sua própria parte.
+8. COMO SE PREPARAR PARA A DEFESA
+Antes da apresentação, a equipe deverá:
+ Revisar todo o projeto;
+ Revisar o código;
+ Revisar os testes;
+ Revisar Dockerfile e Docker Compose;
+ Revisar Git e GitHub;
+ Revisar GitHub Actions;
+ Verificar a imagem publicada no GHCR;
+ Testar docker pull;
+ Testar docker run;
+
+=== Page 9 ===
+ Preparar o cenário normal;
+ Preparar o cenário de exceção;
+ Conferir os logs;
+ Dividir as falas entre os integrantes;
+ Realizar pelo menos um ensaio completo.
+Cada integrante deve conseguir responder:
+O que fizemos?
+Por que fizemos?
+Como funciona?
+Como sabemos que funciona?
+O que acontece quando dá errado?
+Como colocamos essa solução para executar?
+Como publicamos essa solução?
+Qual valor ela entrega para o negócio?
+9. ORIENTAÇÃO FINAL
+A apresentação não deve ser apenas uma demonstração de código.
+A equipe deverá apresentar uma solução de Hyperautomation,
+demonstrando a relação entre:
+Problema de negócio → Processo → Automação → Regras → Testes →
+Confiabilidade → Containerização → CI/CD → Publicação → Execução →
+Resultado
+O objetivo é demonstrar que a equipe entende a solução que desenvolveu e
+consegue explicar como ela funciona de ponta a ponta.
+
+=== Page 10 ===
+FLUXO FINAL DA DEFESA
+PROBLEMA
+↓
+SOLUÇÃO
+↓
+AUTOMAÇÃO
+↓
+TESTES
+↓
+DOCKER
+↓
+CI/CD
+↓
+GHCR
+↓
+EXECUÇÃO
+↓
+RESULTADO

@@ -1,0 +1,490 @@
+=== Page 1 ===
+TÉCNICAS DE HYPERAUTOMATION
+AULA 24 — PREPARAÇÃO PARA A DEFESA 
+TÉCNICA DA AVALIAÇÃO 3
+Prof. Moisés Levy
+AX Academy · Digital Transformation 
+Agosto/2026
+
+=== Page 2 ===
+SUMÁRIO
+1. Objetivo e estrutura da defesa 
+2. Organização dos slides 
+3. Demonstração da solução 
+4. Cenários, testes e exceções 
+5. Docker, CI/CD e GHCR 
+6. Logs, Fallback e Circuit Breaker 
+7. Divisão da apresentação 
+8. Defesa técnica individual
+
+=== Page 3 ===
+OBJETIVO DA AULA
+• Objetivo Geral da Aula:
+ü Esclarecer à equipe como apresentar, demonstrar e defender 
+a solução de Hyperautomation da Avaliação 3, abordando seu 
+funcionamento, tecnologias, testes, tratamento de exceções, 
+Docker, CI/CD, publicação e execução.
+
+=== Page 4 ===
+OBJETIVO DA AULA
+• Objetivos Específicos da Aula:
+ü Organizar e apresentar o projeto no PowerPoint; 
+ü Demonstrar a automação e os cenários de exceção;
+ü Explicar testes, Docker, CI/CD, GHCR e logs;
+ü Dividir a apresentação entre a equipe;
+ü Responder à defesa técnica individual;
+ü Demonstrar domínio da solução desenvolvida.
+
+=== Page 5 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• A apresentação deve responder:
+Qual era o problema?
+↓
+O que vocês desenvolveram?
+↓
+Como funciona?
+↓
+Como vocês garantiram que funciona?
+↓
+O que acontece quando dá erro?
+↓
+Como a solução é executada e publicada?
+• COMO CONTAR A HISTÓRIA DO PROJETO
+• Pensem na apresentação como uma história:
+• ANTES
+Problema → Processo manual → Erros → 
+Retrabalho
+• DEPOIS
+Automação → Validação → Tratamento de 
+erros → Testes → Docker → CI/CD → GHCR 
+→ Resultado
+• Não comecem mostrando código.
+• Primeiro expliquem o problema e a solução.
+
+=== Page 6 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• ESTRUTURA PADRÃO DA APRESENTAÇÃO
+• Todas as equipes deverão seguir uma 
+estrutura semelhante.
+Ex.: — CAPA
+• Colocar:
+ü Nome do projeto;
+ü Nome da equipe;
+ü Nome dos integrantes;
+ü Instituição/curso;
+ü Disciplina;
+ü Professor.
+• Exemplo:
+ü AUTOMAÇÃO INTELIGENTE DE ECOs
+ü Equipe 02
+ü Técnicas de Hyperautomation
+ü Professor: Moisés Levy
+• Na fala:
+“ Nós somos a Equipe 02 e desenvolvemos uma 
+solução de Hyperautomation para automatizar o 
+processo de recebimento, validação e registro 
+de ECOs. "
+
+=== Page 7 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• O PROBLEMA
+ü Mostrar como o processo era realizado 
+antes da automação.
+• Exemplo: PROCESSO MANUAL
+E-mail
+↓
+Leitura manual
+↓
+Extração dos dados
+↓
+Validação
+↓
+Digitação
+↓
+Registro no sistema
+• Mostrar:
+ü retrabalho;
+ü tarefas manuais;
+ü possibilidade de erros;
+ü informações espalhadas;
+ü demora no processamento.
+• Na fala:
+“ Antes da automação, o processo dependia de 
+várias atividades manuais. Isso aumentava o 
+tempo de execução e o risco de erros."
+
+=== Page 8 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• SOLUÇÃO PROPOSTA
+ü Agora mostrar como o robô resolve o 
+problema.
+• Exemplo: PROCESSO AUTOMATIZADO
+Entrada
+↓
+Leitura
+↓
+Extração
+↓
+Validação
+↓
+Processamento
+↓
+Sistema
+↓
+Logs / Resultado
+• Na fala:
+“ Nossa solução automatiza o fluxo de ponta a 
+ponta, realizando a leitura, processamento, 
+validação e registro das informações."
+
+=== Page 9 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• ARQUITETURA DA SOLUÇÃO
+ü Este é um dos slides mais importantes.
+ü Mostrar quem conversa com quem.
+Modelo:
+Dados / Sistemas Simulados
+↓
+RPA / Automação
+↓
+Regras de negócio
+↓
+Processamento
+↓
+Resultado
+↓
+Logs + Monitoramento
+• Tecnologias utilizadas
+ü Python;
+ü Playwright/Selenium ou outra tecnologia 
+escolhida;
+ü pytest;
+ü Docker;
+ü Docker Compose;
+ü Git/GitHub;
+ü GitHub Actions;
+ü GHCR.
+• Na fala: “ Aqui mostramos a arquitetura da 
+nossa solução e como cada tecnologia participa 
+do processo."
+
+=== Page 10 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• FLUXO DA AUTOMAÇÃO
+ü EQUIPE 01 — FORNECEDORES
+Propostas → Leitura → Validação → 
+Cálculo → Ranking → Resultado
+ü EQUIPE 02 — ECO
+E-mail → Extração → Validação → Gateway 
+→ Sistema → Registro
+ü EQUIPE 03 — MRP
+Coleta → Leitura → Validação → 
+Consolidação → Regras → Exceção → 
+Relatório
+• EQUIPE 04 — RELATÓRIOS
+Extrair → Tratar → Cruzar → Analisar → 
+Divergências → Relatório
+• Na fala: Explicar o fluxo passo a passo, sem 
+entrar ainda nos detalhes do código.
+
+=== Page 11 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• REGRA DE NEGÓCIO E CENÁRIO 
+NORMAL
+ü Mostrar um exemplo em que tudo 
+funciona corretamente.
+• Estrutura:
+Entrada válida
+↓
+Processamento
+↓
+Validação aprovada
+↓
+Automação executada
+↓
+Resultado gerado
+• Na demonstração:
+ü Mostrar:
+ü entrada;
+ü execução do robô;
+ü sistema simulado;
+ü resultado;
+ü relatório;
+ü log.
+• Na fala: “ Neste cenário, os dados estão 
+corretos. O robô processa a informação 
+normalmente e gera o resultado esperado."
+
+=== Page 12 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• TRATAMENTO DE EXCEÇÃO
+ü Agora mostrar que o robô não serve 
+apenas para executar o caminho feliz.
+• Pergunta: "E se alguma coisa der 
+errado?"
+• Mostrar:
+Entrada com problema
+↓
+Validação
+↓
+Problema identificado
+↓
+Tratamento
+↓
+Log / Alerta
+↓
+Fallback ou validação humana
+• Exemplos por equipe:
+• Equipe 01 — Fornecedores
+ü Fornecedor D → dados inválidos → proposta 
+rejeitada.
+• Equipe 02 — ECO
+ü ECO ambígua → campo obrigatório ausente → 
+validação humana.
+• Equipe 03 — MRP
+ü Fornecedor C → capacidade alterada → AVISO 
+→ validação humana.
+• Equipe 04 — Relatórios
+ü PROJ_REF_02 → faturamento menor que custo 
++ produção atrasada → ocorrência CRÍTICA.
+
+=== Page 13 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• TESTES AUTOMATIZADOS
+ü Mostrar que vocês não simplesmente 
+executaram o robô e disseram "funcionou".
+• Mostrar:
+pytest
+↓
+Testes
+↓
+Aprovado ✅
+ou
+↓
+Falha ❌
+• Exemplos:
+ü entrada válida;
+ü entrada inválida;
+ü regra de negócio;
+ü tratamento de erro;
+ü cálculo;
+ü integração.
+• Comando:
+ü python -m pytest -v
+Na fala: “ Os testes automatizados verificam se as 
+principais regras da solução continuam funcionando 
+corretamente."
+
+=== Page 14 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• DOCKER
+ü Explicar de forma simples.
+• IMAGEM: É o pacote da aplicação.
+• CONTAINER: É a imagem funcionando.
+• VOLUME: É onde podemos manter dados 
+persistentes, como:
+ü logs;
+ü relatórios;
+ü arquivos de saída.
+• Fluxo:
+Dockerfile
+↓
+Docker Image
+↓
+Container
+↓
+pai.bot.py
+↓
+Processos 1 → 2 → 3 → 4 → 5
+• Na fala: “ O Docker empacota nossa aplicação e 
+suas dependências para que ela possa ser 
+executada de forma padronizada."
+
+=== Page 15 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• GITHUB ACTIONS / CI
+ü Agora explicar o primeiro lado do CI/CD.
+• O QUE ACONTECE?
+git push
+↓
+GitHub Actions
+↓
+Baixa o código
+↓
+Instala dependências
+↓
+Executa testes
+↓
+Valida a aplicação
+• Na fala: “ Quando enviamos uma alteração para o 
+GitHub, o GitHub Actions executa automaticamente 
+as etapas de validação. "
+
+=== Page 16 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• BUILD E PUBLICAÇÃO NO GHCR
+• Depois que os testes passam:
+Testes aprovados
+↓
+Docker Build
+↓
+Imagem Docker
+↓
+GHCR
+• Importante: Nesta atividade utilizaremos GHCR. 
+Não utilizaremos Docker Hub.
+• Exemplo conceitual:
+GitHub
+   ↓
+GitHub Actions
+   ↓
+Docker Build
+   ↓
+GHCR
+   ↓
+Imagem publicada• GitHub Container Registry
+ü É o registro onde a equipe armazenará 
+a imagem Docker.
+
+=== Page 17 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• EXECUÇÃO DA IMAGEM PUBLICADA
+• Depois da publicação:
+GHCR
+ ↓
+docker pull
+ ↓
+docker run
+ ↓
+Container
+ ↓
+bot.py
+ ↓
+Processos
+ ↓
+Resultado
+• Na demonstração:
+• Mostrar:
+ü imagem publicada no GHCR;
+ü docker pull;
+ü docker run;
+ü execução do robô;
+ü resultado final.
+• Na fala: “ Após a publicação, conseguimos obter a 
+imagem do GHCR e executar a solução em um 
+container."
+
+=== Page 18 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• FLUXO COMPLETO DE CI/CD
+ü Este é um dos slides mais importantes da 
+defesa.
+• Mostrar:
+ALTERAÇÃO NO CÓDIGO
+        ↓
+    GIT COMMIT
+        ↓
+     GIT PUSH
+        ↓
+ GITHUB ACTIONS
+        ↓
+      TESTES
+        ↓
+   TESTES OK?
+      ↓   ↓
+     SIM  NÃO
+      ↓    ↓
+ DOCKER BUILD  PARA
+      ↓
+      GHCR
+      ↓
+ DOCKER PULL
+      ↓
+ DOCKER RUN
+      ↓
+   AUTOMAÇÃO
+• Na fala: “ Esse é o ciclo completo da nossa 
+solução: desenvolvemos, versionamos, testamos 
+automaticamente, construímos a imagem, 
+publicamos no GHCR e executamos o container. "
+
+=== Page 19 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• LOGS, ALERTAS E MONITORAMENTO
+ü Mostrar que a solução possui rastreabilidade.
+• O log deve permitir saber:
+Data/Hora → Processo → Status → Mensagem
+• Severidades:
+ü INFO → execução normal;
+ü AVISO → inconsistência que precisa de 
+atenção;
+ü ERRO → falha localizada;
+ü CRÍTICO → falha que impede a continuidade.
+ Na fala: “ Os logs permitem saber o que 
+aconteceu durante a execução e facilitam a 
+identificação de problemas."
+
+=== Page 20 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• FALLBACK E CIRCUIT BREAKER
+• FALLBACK
+ü É uma alternativa quando o caminho 
+principal falha.
+• Exemplo:
+Fonte principal indisponível
+↓
+Alternativa
+↓
+Continuação controlada
+• CIRCUIT BREAKER
+ü É um mecanismo de proteção.
+• Exemplo:
+Falha 1
+  ↓
+Falha 2
+  ↓
+Falha 3
+  ↓
+CIRCUIT BREAKER
+  ↓
+PARA NOVAS TENTATIVAS
+• Na fala: “ O Circuit Breaker evita que o robô fique 
+tentando indefinidamente acessar uma fonte que 
+está apresentando falhas."
+
+=== Page 21 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+• Durante a defesa, mostrem:
+Problema → Solução → Funcionamento → Testes → Tratamento de erros → 
+Docker → CI/CD → GHCR → Resultado.
+• O objetivo é demonstrar que a equipe consegue construir, testar, explicar e 
+executar uma solução de Hyperautomation.
+
+=== Page 22 ===
+DEFESA TÉCNICA — AVALIAÇÃO 3
+Orientações para a apresentação e defesa técnica do projeto.
+
+
+=== Page 23 ===
+Dúvidas?
+Modelo de Apresentação — Projetos AX 
+Academy
+23/38 Prof. Moisés Levy
+
+
+=== Page 24 ===
+REFERÊNCIAS
+• FastAPI. FastAPI Documentation. FastAPI, 2026.
+• Scikit-learn. Scikit-learn User Guide. Scikit-learn, 2026.
+• Joblib. Joblib Documentation. Joblib, 2026.
+• Pydantic. Pydantic Documentation. Pydantic, 2026.
+• Gift, Noah; Deza, Alfredo. Practical MLOps. O'Reilly, 2021.
+• BotCity. BotCity Documentation. BotCity, 2026.
+Modelo de Apresentação — Projetos AX 
+Academy
+37/38 Prof. Moisés Levy
+
+
+=== Page 25 ===
+Deus é Fiel!
+Prof. Moisés Levy
