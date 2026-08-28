@@ -152,6 +152,7 @@ def main() -> int:
     parser.add_argument(
         "--email-trigger",
         "--watch-email",
+        "--monitor-email",
         action="store_true",
         help="Inicia o monitoramento contínuo da caixa de e-mail (IMAP) para processar novos anexos."
     )
