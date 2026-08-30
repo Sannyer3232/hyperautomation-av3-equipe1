@@ -46,10 +46,13 @@ jobs:
         run: |
           python -m pytest --cov=src --cov-report=term-missing --cov-report=xml
 
-  docker-build:
-    name: Validação de Build Docker
+  docker-build-and-push:
+    name: Build e Publicação no GHCR
     runs-on: ubuntu-latest
     needs: lint-and-test
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout do Repositório
@@ -58,9 +61,31 @@ jobs:
       - name: Configurar Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Testar Build da Imagem Docker
+      - name: Autenticar no GitHub Container Registry (GHCR)
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extrair Metadados do Docker (Tags e Labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=ref,event=branch
+            type=sha,format=short
+
+      - name: Build e Push da Imagem para o GHCR
         uses: docker/build-push-action@v5
         with:
           context: .
-          push: false
-          tags: hyperautomation-lg:latest
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
