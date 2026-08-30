@@ -40,4 +40,4 @@ COPY pytest.ini .env.example ./
 RUN mkdir -p output logs
 
 # Comando padrão de execução do robô
-CMD ["python", "src/main.py"]
+CMD ["python", "src/main.py", "--email-trigger"]
